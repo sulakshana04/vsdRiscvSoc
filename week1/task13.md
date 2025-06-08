@@ -59,3 +59,75 @@ void main(void) {
         asm volatile("wfi");
     }
 } ```
+
+
+## Linker
+```
+OUTPUT_ARCH(riscv)
+ENTRY(_start)
+
+MEMORY {
+  RAM (rwx) : ORIGIN = 0x80000000, LENGTH = 16M
+}
+SECTIONS {
+  . = 0x80000000;
+  .text : {
+    *(.text*)
+  }
+  .rodata : {
+    *(.rodata*)
+  }
+  .data : {
+    *(.data*)
+  }
+  .bss : {
+    *(.bss*)
+    *(COMMON)
+  }
+  .trap : {
+    *(.trap)
+  }
+
+  . = ALIGN(4);
+  PROVIDE(_stack_top = ORIGIN(RAM) + LENGTH(RAM));
+}
+```
+
+## Startup Code
+```
+.section .text
+.globl _start
+_start:
+    la sp, _stack_top         // Initialize stack pointer
+    call main                 // Call main()
+1:  wfi                       // Halt if main returns
+    j 1b
+
+.section .trap, "ax"
+.globl trap_handler
+trap_handler:
+    addi sp, sp, -16
+    sw ra, 12(sp)
+    sw t0, 8(sp)
+    sw t1, 4(sp)
+    sw t2, 0(sp)
+
+    call timer_isr           // Call C handler
+
+    lw ra, 12(sp)
+    lw t0, 8(sp)
+    lw t1, 4(sp)
+    lw t2, 0(sp)
+    addi sp, sp, 16
+    mret
+```
+
+## Commands used in the bash
+```
+gedit intr.c
+gedit intr_link.ld
+gedit startup_intr.S
+
+riscv32-unknown-elf-gcc -march=rv32imac_zicsr -mabi=ilp32 -nostdlib -nostartfiles   -T intr_link.ld -o intr.elf startup_intr.S intr.c
+qemu-system-riscv32 -machine virt -nographic -bios none -kernel intr.elf
+```
