@@ -10,6 +10,15 @@
 
 //MTIP handler in C
 
+
+
+
+
+
+
+
+
+
 #include <stdint.h>
 #include <stddef.h>
 
@@ -43,7 +52,7 @@ void main(void) {
 
     timer_isr();  // Initial test call
 
-    // Set mtvec to point to trap handler
+    // Set mtvec to point to the trap handler
     extern void trap_handler(void);
     uintptr_t trap_addr = (uintptr_t)&trap_handler;
     asm volatile("csrw mtvec, %0" :: "r"(trap_addr));
