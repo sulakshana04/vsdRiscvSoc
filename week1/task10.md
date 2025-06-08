@@ -28,3 +28,13 @@ volatile uint32_t* gpio declares a pointer to gpio of type unsigned integer of 3
 file:///home/sulakshana/Pictures/Screenshots/task10a.png![image](https://github.com/user-attachments/assets/a03421a5-dcd0-48b6-b7cc-16e98a412cc3)
 
 file:///home/sulakshana/Pictures/Screenshots/task10b.png![image](https://github.com/user-attachments/assets/5ed3527f-b545-4a17-995e-a6b1532e2f00)
+
+## Key Concepts
+### volatile Keyword
+* Tells the compiler not to optimize access to the memory location.
+* Ensures that every read/write to *gpio actually occurs, even if it looks redundant in the code.
+* Without volatile, the compiler might optimize out writes that appear to have no side effects, which is dangerous in embedded I/O.
+
+## Memory Alignment
+* uint32_t is 4 bytes, so 0x10012000 must be 4-byte aligned — which it is.
+* Misaligned accesses can cause hardware faults or undefined behavior on some systems.
