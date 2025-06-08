@@ -1,4 +1,15 @@
-# MTIP Handler in C
+## Objective
+ To enable the machine-timer interrupt (MTIP) and write a simple handler in C
+
+## What is the Machine Timer Interrupt (MTIP)?
+The Machine Timer Interrupt (MTIP) is a fundamental interrupt in the RISC-V privileged architecture. It is triggered by the machine timer, which uses two special memory-mapped registers:
+
+ mtime: A continuously incrementing 64-bit timer register representing the current time.
+ mtimecmp: A 64-bit comparator register. When mtime equals or exceeds mtimecmp, the machine timer interrupt is triggered.
+ These registers are usually implemented in the CLINT (Core Local Interruptor) hardware block of the RISC-V system. 
+
+
+```//MTIP handler in C
 #include <stdint.h>
 #include <stddef.h>
 
@@ -32,7 +43,7 @@ void main(void) {
 
     timer_isr();  // Initial test call
 
-    // Set mtvec to point to trap handler
+    // Set mtvec to point to the trap handler
     extern void trap_handler(void);
     uintptr_t trap_addr = (uintptr_t)&trap_handler;
     asm volatile("csrw mtvec, %0" :: "r"(trap_addr));
@@ -47,4 +58,4 @@ void main(void) {
     while (1) {
         asm volatile("wfi");
     }
-}
+} ```
