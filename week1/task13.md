@@ -132,3 +132,7 @@ gedit startup_intr.S
 riscv32-unknown-elf-gcc -march=rv32imac_zicsr -mabi=ilp32 -nostdlib -nostartfiles   -T intr_link.ld -o intr.elf startup_intr.S intr.c
 qemu-system-riscv32 -machine virt -nographic -bios none -kernel intr.elf
 ```
+
+
+file:///home/sulakshana/Pictures/Screenshots/task13.png![image](https://github.com/user-attachments/assets/171bf6f6-83a3-40e7-8050-bd864dda2cfc)
+
