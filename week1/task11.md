@@ -49,3 +49,6 @@ Initialized data (like global variables with initial values) starts at 0x1000000
 This is for uninitialized global/static variables (they are zero-initialized at runtime).
 
 It follows the .data section and is 4-byte aligned for safe access.
+
+file:///home/sulakshana/Pictures/Screenshots/task11b.png![image](https://github.com/user-attachments/assets/601d273a-9333-4cbf-9bbb-3ae00283a646)
+
