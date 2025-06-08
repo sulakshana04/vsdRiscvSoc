@@ -9,7 +9,8 @@ The Machine Timer Interrupt (MTIP) is a fundamental interrupt in the RISC-V priv
  These registers are usually implemented in the CLINT (Core Local Interruptor) hardware block of the RISC-V system. 
 
 
-```//MTIP handler in C
+```
+//MTIP handler in C
 #include <stdint.h>
 #include <stddef.h>
 
@@ -58,12 +59,12 @@ void main(void) {
     while (1) {
         asm volatile("wfi");
     }
-} ```
-
+}
+```
 
 ## Linker
-```
-OUTPUT_ARCH(riscv)
+
+```OUTPUT_ARCH(riscv)
 ENTRY(_start)
 
 MEMORY {
